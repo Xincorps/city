@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Interactive 3D Scene</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Простое оформление кнопки звука */
+#audioButton {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+#audioButton:hover {
+    background-color: #444;
+}
+</style>
+</head>
+<body>
+
+<div id="viewer">
+    <div id="coords">Загрузка...</div>
+    <iframe id="cityFrame"
+        src="https://sketchfab.com/models/885d8034bc02407fb48cf7f0dfe61d67/embed?ui_infos=0&ui_controls=1&ui_annotations=0&autostart=1"
+        allow="autoplay; fullscreen; xr-spatial-tracking">
+    </iframe>
+
+    <!-- Плашка для логотипа и текста -->
+    <div id="extra" class="extra">
+        <img id="extraLogo" src="Logo.png" alt="Logo">
+        <div id="extraText" class="text"></div>
+    </div>
+
+    <!-- Футер с кнопками -->
+    <div id="footer">
+        <img src="Logo.png" class="footer-logo" alt="Logo">
+        <button class="btn" id="homeButton"><img src="but.png" alt="Home"></button>
+        <button class="btn" id="xButton">X-system</button>
+        <button class="btn" id="alphaButton">Alpha Tech</button>
+        <button class="btn" id="ascendiaButton">Ascendia</button>
+        <button class="btn" id="rentcarButton">RentCar</button>
+        <button id="audioButton">🔊</button>
+    </div>
+</div>
+
+<!-- Два фона аудио -->
+<audio id="backgroundAudio1" src="r1.mp3" loop></audio>
+<audio id="backgroundAudio2" src="jz.mp3" loop></audio>
+
+<script src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"></script>
+<script src="script.js"></script>
+
+<script>
+const audio1 = document.getElementById('backgroundAudio1');
+const audio2 = document.getElementById('backgroundAudio2');
+const audioBtn = document.getElementById('audioButton');
+
+// Задаём громкость (0 = нет, 1 = максимальная)
+audio1.volume = 0.8; // 90% громкости для r1.mp3
+audio2.volume = 0.02; // 10% громкости для jz.mp3
+
+// Кнопка включения/выключения обоих аудио
+audioBtn.addEventListener('click', () => {
+    if (audio1.paused && audio2.paused) {
+        audio1.play();
+        audio2.play();
+        audioBtn.textContent = '🔇';
+    } else {
+        audio1.pause();
+        audio2.pause();
+        audioBtn.textContent = '🔊';
+    }
+});
+
+// Пробуем автоплей при загрузке
+window.addEventListener('DOMContentLoaded', () => {
+    audio1.play().catch(() => {});
+    audio2.play().catch(() => {});
+});
+</script>
+
+</body>
+</html>
